@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MRP · Mty Rental Place — Renta y venta de maquinaria</title>
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-soft:#f7f5ef;
+    --ink:#181510;
+    --ink-soft:#5a5648;
+    --muted:#8a8578;
+    --gold:#d9a404;
+    --gold-deep:#b4830a;
+    --gold-pale:#fbe9b8;
+    --line:#eae5d8;
+    --card:#ffffff;
+    --radius:14px;
+    --maxw:1200px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Segoe UI', Calibri, Arial, sans-serif;
+    background:var(--bg);
+    color:var(--ink-soft);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+  section{position:relative;}
+  h1,h2,h3{font-family:'Georgia','Cambria',serif; letter-spacing:-0.01em; font-weight:700; color:var(--ink);}
+  .eyebrow{
+    text-transform:uppercase; letter-spacing:3px; font-size:12px; font-weight:700;
+    color:var(--gold-deep); display:inline-flex; align-items:center; gap:10px; margin-bottom:14px;
+  }
+  .eyebrow::before{content:""; width:22px; height:2px; background:var(--gold); display:inline-block;}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:15px 30px; border-radius:999px; font-weight:700; font-size:14.5px;
+    cursor:pointer; border:1px solid transparent; position:relative; overflow:hidden;
+    transition:transform .25s ease, box-shadow .25s ease; white-space:nowrap;
+  }
+  .btn:active{transform:scale(.96);}
+  .btn-primary{background:linear-gradient(135deg, var(--gold), var(--gold-deep)); color:#1c1400;}
+  .btn-primary:hover{box-shadow:0 10px 28px -8px rgba(180,131,10,.5); transform:translateY(-2px);}
+  .btn-dark{background:var(--ink); color:#fff;}
+  .btn-dark:hover{box-shadow:0 10px 28px -10px rgba(0,0,0,.4); transform:translateY(-2px);}
+  .btn-ghost{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--gold-deep); color:var(--gold-deep);}
+  .ripple{position:absolute; border-radius:50%; background:rgba(255,255,255,.6); transform:scale(0); animation:rip .6s ease-out; pointer-events:none;}
+  @keyframes rip{ to{ transform:scale(3); opacity:0; } }
+
+  /* ---------- UTILITY BAR ---------- */
+  .utility{background:var(--ink); color:#cfcabb; font-size:12.5px;}
+  .utility .wrap{display:flex; justify-content:space-between; align-items:center; padding:9px 32px;}
+  .utility a{color:#e7dfc5; display:inline-flex; align-items:center; gap:6px;}
+  .utility .u-left{display:flex; gap:22px;}
+  @media(max-width:700px){ .utility .u-right{display:none;} }
+
+  /* ---------- NAV ---------- */
+  header{position:sticky; top:0; z-index:100; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav{display:flex; align-items:center; justify-content:space-between; padding:14px 32px; max-width:var(--maxw); margin:0 auto; position:relative;}
+  .logo{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; letter-spacing:.3px; color:var(--ink);}
+  .logo .mark{
+    width:38px; height:38px; border-radius:9px; background:linear-gradient(135deg, var(--ink), #35301f);
+    display:flex; align-items:center; justify-content:center; color:var(--gold); font-family:Georgia,serif; font-weight:900; font-size:17px;
+    transform:rotate(-6deg);
+  }
+  .navlinks{display:flex; gap:8px; align-items:center;}
+  .navlinks > li{position:relative;}
+  .navlinks > li > a{font-size:14.5px; color:var(--ink-soft); padding:10px 14px; display:inline-block; border-radius:8px; transition:background .2s, color .2s;}
+  .navlinks > li > a:hover, .navlinks > li > a.active{background:var(--bg-soft); color:var(--ink);}
+  .megamenu{
+    position:absolute; top:100%; left:0; background:#fff; border:1px solid var(--line); border-radius:12px;
+    box-shadow:0 24px 50px -20px rgba(0,0,0,.2); padding:18px; width:560px; display:grid; grid-template-columns:repeat(2,1fr); gap:6px;
+    opacity:0; visibility:hidden; transform:translateY(8px); transition:all .2s ease;
+  }
+  .has-mega:hover .megamenu{opacity:1; visibility:visible; transform:translateY(0);}
+  .megamenu a{display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:8px; font-size:13.5px; color:var(--ink-soft);}
+  .megamenu a:hover{background:var(--bg-soft); color:var(--ink);}
+  .megamenu a .dot{width:6px; height:6px; border-radius:50%; background:var(--gold);}
+  .navcta{display:flex; align-items:center; gap:12px;}
+  .quote-pill{
+    display:flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:999px; padding:9px 16px 9px 12px;
+    font-size:13.5px; font-weight:700; color:var(--ink); cursor:pointer; transition:border-color .2s;
+  }
+  .quote-pill:hover{border-color:var(--gold-deep);}
+  .quote-pill .count{background:var(--ink); color:var(--gold); width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px;}
+  .burger{display:none; flex-direction:column; gap:5px; cursor:pointer;}
+  .burger span{width:24px; height:2px; background:var(--ink);}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:64px 0 90px; overflow:hidden; position:relative;}
+  .hero::before{
+    content:""; position:absolute; top:-120px; right:-160px; width:520px; height:520px; border-radius:50%;
+    background:radial-gradient(circle, var(--gold-pale), transparent 70%); opacity:.7; z-index:0;
+  }
+  .hero-inner{display:grid; grid-template-columns:1fr .95fr; gap:56px; align-items:center; position:relative; z-index:2;}
+  .hero h1{font-size:48px; line-height:1.1; margin-bottom:20px;}
+  .hero h1 em{font-style:normal; color:var(--gold-deep); position:relative;}
+  .hero p{color:var(--ink-soft); font-size:16.5px; line-height:1.7; max-width:470px; margin-bottom:30px;}
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:40px;}
+  .hero-stats{display:flex; gap:30px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:26px;}
+  .hstat b{font-family:Georgia,serif; font-size:27px; color:var(--ink); display:block;}
+  .hstat span{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;}
+
+  .hero-media{position:relative; border-radius:20px; overflow:hidden; box-shadow:0 40px 80px -30px rgba(24,21,16,.35);}
+  .hero-media img{width:100%; height:460px; object-fit:cover;}
+  .hero-badge{
+    position:absolute; bottom:18px; left:18px; background:rgba(255,255,255,.95); backdrop-filter:blur(6px);
+    border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:12px; box-shadow:0 12px 30px -12px rgba(0,0,0,.3);
+  }
+  .dot-live{width:9px; height:9px; border-radius:50%; background:#3f9142; box-shadow:0 0 0 0 rgba(63,145,66,.6); animation:pulse 2s infinite;}
+  @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(63,145,66,.5);} 70%{box-shadow:0 0 0 10px rgba(63,145,66,0);} 100%{box-shadow:0 0 0 0 rgba(63,145,66,0);} }
+  .hero-badge b{font-size:13px; display:block;}
+  .hero-badge span{font-size:11.5px; color:var(--muted);}
+
+  /* ---------- MARQUEE (marcas) ---------- */
+  .marquee{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--bg-soft); padding:22px 0; overflow:hidden;}
+  .marquee-track{display:flex; gap:60px; white-space:nowrap; animation:scrollx 24s linear infinite; width:max-content; align-items:center;}
+  .marquee-track span{font-family:Georgia,serif; font-weight:700; font-size:19px; letter-spacing:1px; color:var(--ink-soft); opacity:.55;}
+  @keyframes scrollx{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* ---------- SECTION GENERIC ---------- */
+  .section{padding:100px 0;}
+  .section-head{max-width:640px; margin-bottom:52px;}
+  .section-head.center{margin-left:auto; margin-right:auto; text-align:center;}
+  .section-head h2{font-size:34px; line-height:1.2;}
+  .section-head p{color:var(--ink-soft); margin-top:14px; font-size:15.5px; line-height:1.7;}
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- FEATURES GRID ---------- */
+  .feat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+  .feat-item{padding:26px 22px; border:1px solid var(--line); border-radius:var(--radius); background:var(--card); transition:transform .3s, box-shadow .3s;}
+  .feat-item:hover{transform:translateY(-5px); box-shadow:0 20px 40px -22px rgba(24,21,16,.22);}
+  .feat-icon{width:44px; height:44px; border-radius:11px; background:var(--gold-pale); display:flex; align-items:center; justify-content:center; margin-bottom:16px;}
+  .feat-item h4{font-size:15px; margin-bottom:8px; color:var(--ink); font-family:'Segoe UI';}
+  .feat-item p{font-size:13px; color:var(--ink-soft); line-height:1.6;}
+
+  /* ---------- STATS BAND ---------- */
+  .stats-band{background:var(--ink); color:#fff;}
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr); padding:54px 0;}
+  .stat-item{text-align:center; border-right:1px solid rgba(255,255,255,.12);}
+  .stat-item:last-child{border-right:none;}
+  .stat-item b{font-family:Georgia,serif; font-size:40px; color:var(--gold); display:block;}
+  .stat-item span{font-size:12px; color:#cfcabb; text-transform:uppercase; letter-spacing:1.5px;}
+
+  /* ---------- CATALOGO ---------- */
+  .filters{display:flex; gap:10px; margin-bottom:34px; flex-wrap:wrap;}
+  .chip{padding:10px 20px; border-radius:999px; border:1px solid var(--line); font-size:13.5px; cursor:pointer; color:var(--ink-soft); transition:all .2s ease; background:#fff;}
+  .chip.active{background:var(--ink); color:var(--gold); border-color:var(--ink); font-weight:700;}
+  .cat-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:26px;}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
+    transition:transform .3s ease, box-shadow .3s ease; transform-style:preserve-3d; will-change:transform;
+  }
+  .card:hover{box-shadow:0 26px 50px -24px rgba(24,21,16,.28);}
+  .card-media{position:relative; height:180px; overflow:hidden;}
+  .card-media img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
+  .card:hover .card-media img{transform:scale(1.08);}
+  .avail{position:absolute; top:12px; right:12px; font-size:10.5px; padding:5px 11px; border-radius:999px; font-weight:700; letter-spacing:.4px; backdrop-filter:blur(4px);}
+  .avail.si{background:rgba(63,145,66,.16); color:#2c6e2f;}
+  .avail.no{background:rgba(193,87,63,.16); color:#a44730;}
+  .cat-tag{position:absolute; bottom:12px; left:12px; font-size:10px; text-transform:uppercase; letter-spacing:1px; color:#fff; background:rgba(24,21,16,.6); padding:4px 10px; border-radius:999px; backdrop-filter:blur(4px);}
+  .card-body{padding:20px 22px 22px;}
+  .card h3{font-size:17px; margin-bottom:6px; font-family:'Segoe UI'; font-weight:700; color:var(--ink);}
+  .card p.desc{font-size:13px; color:var(--ink-soft); line-height:1.55; margin-bottom:14px; min-height:40px;}
+  .spec-row{display:flex; gap:14px; margin-bottom:16px;}
+  .spec{font-size:11px; color:var(--muted);}
+  .spec b{display:block; color:var(--ink); font-size:13px; font-family:Georgia,serif;}
+  .price-row{display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); padding-top:16px;}
+  .price{font-family:Georgia, serif; font-size:18px; color:var(--ink);}
+  .price small{display:block; font-family:'Segoe UI'; font-size:11px; color:var(--muted); font-weight:400;}
+  .addbtn{
+    width:38px; height:38px; border-radius:50%; background:var(--ink); border:1px solid var(--ink);
+    color:var(--gold); font-size:20px; display:flex; align-items:center; justify-content:center; cursor:pointer;
+    position:relative; overflow:hidden; transition:background .2s, transform .2s;
+  }
+  .addbtn:hover{background:var(--gold-deep); border-color:var(--gold-deep); color:#1c1400; transform:rotate(90deg);}
+
+  /* ---------- PROCESO ---------- */
+  .proceso{display:grid; grid-template-columns:repeat(4,1fr); gap:0; position:relative;}
+  .proceso::before{content:""; position:absolute; top:26px; left:8%; right:8%; height:1px; background:var(--line); z-index:0;}
+  .step{position:relative; z-index:1; padding-right:20px;}
+  .step-num{width:52px; height:52px; border-radius:50%; background:#fff; border:2px solid var(--gold); color:var(--gold-deep); display:flex; align-items:center; justify-content:center; font-family:Georgia,serif; font-size:20px; margin-bottom:20px;}
+  .step h4{font-size:16px; margin-bottom:8px; color:var(--ink);}
+  .step p{font-size:13.5px; color:var(--ink-soft); line-height:1.6;}
+
+  /* ---------- REQUISITOS ---------- */
+  .req-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .req-item{text-align:center; padding:30px 20px; border:1px dashed var(--line); border-radius:var(--radius);}
+  .req-ic{width:50px; height:50px; margin:0 auto 16px; border-radius:50%; background:var(--gold-pale); display:flex; align-items:center; justify-content:center;}
+  .req-item h4{font-size:14.5px; color:var(--ink); margin-bottom:6px;}
+  .req-item p{font-size:12.5px; color:var(--muted);}
+
+  /* ---------- TESTIMONIOS ---------- */
+  .testi-wrap{position:relative; max-width:740px; margin:0 auto; text-align:center;}
+  .testi-slide{display:none;}
+  .testi-slide.active{display:block; animation:fadein .5s ease;}
+  @keyframes fadein{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+  .testi-slide p{font-family:Georgia, serif; font-size:22px; line-height:1.5; color:var(--ink); margin-bottom:20px;}
+  .testi-slide b{color:var(--ink); font-family:'Segoe UI'; font-size:14px;}
+  .testi-slide span{display:block; color:var(--muted); font-size:12.5px; margin-top:4px;}
+  .testi-dots{display:flex; gap:10px; justify-content:center; margin-top:30px;}
+  .tdot{width:9px; height:9px; border-radius:50%; background:var(--line); cursor:pointer; transition:background .2s;}
+  .tdot.active{background:var(--gold-deep);}
+
+  /* ---------- CONTACTO / FORM ---------- */
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:flex-start;}
+  .contact-info h2{font-size:32px; margin-bottom:16px;}
+  .contact-info p{margin-bottom:26px;}
+  .cinfo-item{display:flex; gap:14px; align-items:flex-start; margin-bottom:20px;}
+  .cinfo-ic{width:38px; height:38px; min-width:38px; border-radius:10px; background:var(--gold-pale); display:flex; align-items:center; justify-content:center;}
+  .cinfo-item b{display:block; font-size:14px; color:var(--ink);}
+  .cinfo-item span{font-size:13px; color:var(--muted);}
+  .form-card{background:var(--bg-soft); border:1px solid var(--line); border-radius:var(--radius); padding:34px;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;}
+  .form-field{margin-bottom:14px;}
+  .form-field label{font-size:12.5px; color:var(--ink-soft); display:block; margin-bottom:6px; font-weight:600;}
+  .form-field input, .form-field select, .form-field textarea{
+    width:100%; padding:12px 14px; border-radius:9px; border:1px solid var(--line); background:#fff; font-size:14px; color:var(--ink); font-family:inherit;
+  }
+  .form-field textarea{resize:vertical; min-height:80px;}
+  .form-success{display:none; text-align:center; padding:30px 10px;}
+  .form-success.show{display:block;}
+  .form-success .ic{width:56px; height:56px; border-radius:50%; background:#e6f4e6; color:#2c6e2f; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:26px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink); color:#cfcabb; padding:70px 0 26px;}
+  .foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:50px;}
+  .foot-col h5{font-size:13px; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); margin-bottom:18px;}
+  .foot-col ul li{margin-bottom:10px; font-size:14px; color:#b9b4a3;}
+  .foot-col ul li a:hover{color:#fff;}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.12); padding-top:24px; display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:#8c8776; flex-wrap:wrap; gap:10px;}
+  .social{display:flex; gap:10px;}
+  .social a{width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.18); display:flex; align-items:center; justify-content:center; transition:border-color .2s, color .2s; color:#cfcabb;}
+  .social a:hover{border-color:var(--gold); color:var(--gold);}
+
+  /* ---------- QUOTE DRAWER ---------- */
+  .drawer-overlay{position:fixed; inset:0; background:rgba(24,21,16,.5); z-index:300; opacity:0; pointer-events:none; transition:opacity .3s ease;}
+  .drawer-overlay.show{opacity:1; pointer-events:auto;}
+  .drawer{
+    position:fixed; top:0; right:0; height:100%; width:400px; max-width:88vw; background:#fff;
+    border-left:1px solid var(--line); z-index:301; transform:translateX(100%); transition:transform .4s cubic-bezier(.16,.84,.44,1);
+    display:flex; flex-direction:column;
+  }
+  .drawer.show{transform:translateX(0);}
+  .drawer-head{padding:26px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;}
+  .drawer-head h3{font-size:18px;}
+  .drawer-close{cursor:pointer; font-size:22px; color:var(--muted);}
+  .drawer-body{padding:20px 26px; overflow-y:auto; flex:1;}
+  .drawer-item{display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--line); gap:10px;}
+  .drawer-item .di-name{font-size:14px; color:var(--ink);}
+  .drawer-item .di-name small{display:block; color:var(--muted); font-size:11.5px; margin-top:2px;}
+  .di-remove{color:#a44730; cursor:pointer; font-size:13px;}
+  .drawer-empty{color:var(--muted); font-size:14px; text-align:center; padding:60px 20px;}
+  .drawer-foot{padding:22px 26px; border-top:1px solid var(--line);}
+  .toast{
+    position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(30px); background:var(--ink);
+    color:var(--gold); padding:14px 26px; border-radius:999px; font-size:13.5px; font-weight:700; z-index:400; opacity:0;
+    transition:all .35s ease; pointer-events:none;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  @media(max-width:940px){
+    .hero-inner{grid-template-columns:1fr;}
+    .hero-media img{height:320px;}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .feat-grid{grid-template-columns:repeat(2,1fr);}
+    .stats-grid{grid-template-columns:repeat(2,1fr); row-gap:30px;}
+    .stat-item:nth-child(2){border-right:none;}
+    .proceso{grid-template-columns:repeat(2,1fr); row-gap:40px;}
+    .proceso::before{display:none;}
+    .req-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    .navlinks{display:none;}
+    .burger{display:flex;}
+  }
+  @media(max-width:600px){
+    .hero h1{font-size:32px;}
+    .cat-grid{grid-template-columns:1fr;}
+    .feat-grid{grid-template-columns:1fr;}
+    .form-row{grid-template-columns:1fr;}
+    .wrap{padding:0 20px;}
+    .foot-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="utility">
+  <div class="wrap">
+    <div class="u-left">
+      <a href="tel:+528100000000">📞 81 0000 0000</a>
+      <a href="https://wa.me/528100000000" target="_blank">🟢 WhatsApp directo</a>
+    </div>
+    <div class="u-right">L-V 8:00–18:00 · Sáb 9:00–14:00 · Monterrey y área metropolitana</div>
+  </div>
+</div>
+
+<header>
+  <nav>
+    <div class="logo"><div class="mark">M</div> MRP <span style="color:var(--muted); font-weight:400; font-size:13px;">&nbsp;Mty Rental Place</span></div>
+    <ul class="navlinks">
+      <li><a href="#inicio" class="active">Inicio</a></li>
+      <li class="has-mega"><a href="#catalogo">Catálogo ▾</a>
+        <div class="megamenu">
+          <a href="#catalogo" data-f="jardin"><span class="dot"></span>Desmalezadoras</a>
+          <a href="#catalogo" data-f="jardin"><span class="dot"></span>Podadoras</a>
+          <a href="#catalogo" data-f="jardin"><span class="dot"></span>Desbrozadoras</a>
+          <a href="#catalogo" data-f="agricola"><span class="dot"></span>Motosierras</a>
+          <a href="#catalogo" data-f="jardin"><span class="dot"></span>Hidrolavadoras</a>
+          <a href="#catalogo" data-f="agricola"><span class="dot"></span>Equipo agrícola</a>
+        </div>
+      </li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <div class="navcta">
+      <div class="quote-pill" id="quotePill"><span>Cotización</span><span class="count" id="quoteCount">0</span></div>
+      <a href="#contacto" class="btn btn-primary" style="padding:11px 22px; font-size:13.5px;">Cotizar</a>
+      <div class="burger" id="burger"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="wrap hero-inner">
+    <div>
+      <div class="eyebrow">Renta · Venta · Mantenimiento</div>
+      <h1>Tu equipo listo,<br><em>tu trabajo sin pausas.</em></h1>
+      <p>Maquinaria para jardín, campo y mantenimiento en Monterrey y área metropolitana. Equipos revisados, entrega rápida y asesoría real — no solo una lista de precios.</p>
+      <div class="hero-ctas">
+        <a href="#catalogo" class="btn btn-dark" data-ripple>Ver catálogo</a>
+        <a href="https://wa.me/528100000000?text=Hola%2C%20quiero%20cotizar%20un%20equipo" target="_blank" class="btn btn-ghost" data-ripple>Cotizar por WhatsApp</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><b>8+</b><span>Años en Monterrey</span></div>
+        <div class="hstat"><b>120+</b><span>Equipos en flotilla</span></div>
+        <div class="hstat"><b>98%</b><span>Satisfacción</span></div>
+      </div>
+    </div>
+    <div class="hero-media">
+      <img src="https://images.pexels.com/photos/22601839/pexels-photo-22601839.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Equipo de trabajo con maquinaria de jardín">
+      <div class="hero-badge"><span class="dot-live"></span><div><b>Disponibilidad en vivo</b><span>Actualizada por equipo</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>STIHL</span><span>HUSQVARNA</span><span>HONDA</span><span>TORO</span><span>ECHO</span><span>KARCHER</span><span>MAKITA</span>
+    <span>STIHL</span><span>HUSQVARNA</span><span>HONDA</span><span>TORO</span><span>ECHO</span><span>KARCHER</span><span>MAKITA</span>
+  </div>
+</div>
+
+<section class="section" style="padding-bottom:60px;">
+  <div class="wrap">
+    <div class="feat-grid reveal">
+      <div class="feat-item">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><path d="M5 13l4 4L19 7"/></svg></div>
+        <h4>Equipos revisados</h4>
+        <p>Mantenimiento antes de cada entrega, sin fallas de última hora.</p>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h4>Entrega rápida</h4>
+        <p>Cobertura en Monterrey y área metropolitana con tiempos claros.</p>
+      </div>
+      <div class="feat-icon" style="display:none;"></div>
+      <div class="feat-item">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><path d="M4 21v-6M4 9V3M12 21v-10M12 7V3M20 21v-4M20 13V3"/></svg></div>
+        <h4>Asesoría experta</h4>
+        <p>Te ayudamos a elegir el equipo correcto para tu terreno o proyecto.</p>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+        <h4>Atención por WhatsApp</h4>
+        <p>Cotizaciones y seguimiento directo, sin vueltas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-band">
+  <div class="wrap stats-grid">
+    <div class="stat-item"><b class="counter" data-target="8">0</b><span>Años de experiencia</span></div>
+    <div class="stat-item"><b class="counter" data-target="120">0</b><span>Equipos en flotilla</span></div>
+    <div class="stat-item"><b class="counter" data-target="600">0</b><span>Clientes atendidos</span></div>
+    <div class="stat-item"><b class="counter" data-target="98">0</b><span>% de satisfacción</span></div>
+  </div>
+</div>
+
+<section class="section" id="catalogo">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Catálogo</div>
+      <h2>Equipo listo para tu proyecto</h2>
+      <p>Filtra por categoría y agrega lo que necesites a tu cotización. Te contactamos directo por WhatsApp con precio y disponibilidad.</p>
+    </div>
+    <div class="filters reveal">
+      <div class="chip active" data-filter="todos">Todos</div>
+      <div class="chip" data-filter="renta">Renta</div>
+      <div class="chip" data-filter="venta">Venta</div>
+      <div class="chip" data-filter="jardin">Jardín</div>
+      <div class="chip" data-filter="agricola">Agrícola</div>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0; background:var(--bg-soft);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Cómo funciona</div>
+      <h2>De la cotización al equipo en tu sitio</h2>
+    </div>
+    <div class="proceso reveal">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Cotiza</h4>
+        <p>Agrega equipos a tu cotización o escríbenos por WhatsApp. Respuesta en minutos.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Confirmamos</h4>
+        <p>Validamos disponibilidad real y te damos fecha y costo exacto, sin sorpresas.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Entrega</h4>
+        <p>Recoges en tienda o coordinamos entrega en Monterrey y área metropolitana.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Soporte</h4>
+        <p>Asesoría durante el uso y taller de mantenimiento si el equipo lo necesita.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="servicios">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Servicios</div>
+      <h2>Renta, venta y taller — todo en un mismo lugar</h2>
+    </div>
+    <div class="feat-grid reveal" style="grid-template-columns:repeat(3,1fr);">
+      <div class="feat-item">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></div>
+        <h4>Renta de equipo</h4>
+        <p>Por día, semana o proyecto. Equipos revisados antes de cada entrega, con asesoría para elegir el correcto.</p>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9z"/></svg></div>
+        <h4>Venta de maquinaria</h4>
+        <p>Equipo nuevo y seminuevo con garantía. Ideal si el uso es frecuente y conviene invertir en lugar de rentar.</p>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><path d="M14.7 6.3a4 4 0 11-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 015.4-5.4z"/></svg></div>
+        <h4>Taller y mantenimiento</h4>
+        <p>Servicio, diagnóstico y refacciones para que tu propio equipo esté siempre listo para trabajar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-soft);">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <div class="eyebrow" style="justify-content:center;">Requisitos</div>
+      <h2>Para rentar solo necesitas</h2>
+    </div>
+    <div class="req-grid reveal">
+      <div class="req-item">
+        <div class="req-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg></div>
+        <h4>Identificación oficial</h4>
+        <p>INE, pasaporte o licencia vigente.</p>
+      </div>
+      <div class="req-item">
+        <div class="req-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><path d="M6 2h9l3 3v17H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></div>
+        <h4>Comprobante de domicilio</h4>
+        <p>No mayor a 3 meses.</p>
+      </div>
+      <div class="req-item">
+        <div class="req-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><path d="M4 4h16v16H4z"/><path d="M8 12h8M8 16h5"/></svg></div>
+        <h4>Depósito o pagaré</h4>
+        <p>Como garantía del equipo rentado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="testi-wrap reveal">
+      <div class="eyebrow" style="justify-content:center;">Testimonios</div>
+      <div id="testiSlides">
+        <div class="testi-slide active">
+          <p>"Pedimos una desmalezadora un sábado y la tuvimos en menos de dos horas. El equipo llegó impecable y con instrucciones claras."</p>
+          <b>Rancho Santa Fe</b><span>Cliente de renta agrícola</span>
+        </div>
+        <div class="testi-slide">
+          <p>"Compramos dos hidrolavadoras para el negocio y el seguimiento post-venta ha sido de los mejores que hemos tenido con un proveedor."</p>
+          <b>Jardines López</b><span>Cliente de venta de equipo</span>
+        </div>
+        <div class="testi-slide">
+          <p>"El taller nos salvó una obra: llevamos una motosierra en falla y la regresaron el mismo día funcionando perfecto."</p>
+          <b>Constructora del Valle</b><span>Cliente de taller y mantenimiento</span>
+        </div>
+      </div>
+      <div class="testi-dots">
+        <div class="tdot active" data-i="0"></div>
+        <div class="tdot" data-i="1"></div>
+        <div class="tdot" data-i="2"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contacto" style="background:var(--bg-soft);">
+  <div class="wrap">
+    <div class="contact-grid reveal">
+      <div class="contact-info">
+        <div class="eyebrow">Contacto</div>
+        <h2>Arma tu cotización en minutos</h2>
+        <p>Cuéntanos qué necesitas y te contactamos directo por WhatsApp o teléfono. También puedes escribirnos ya con tu lista de cotización.</p>
+        <div class="cinfo-item">
+          <div class="cinfo-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><b>Colón #1575, Col. Terminal</b><span>Monterrey, N.L.</span></div>
+        </div>
+        <div class="cinfo-item">
+          <div class="cinfo-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+          <div><b>81 0000 0000</b><span>WhatsApp y llamadas</span></div>
+        </div>
+        <div class="cinfo-item">
+          <div class="cinfo-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b4830a" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+          <div><b>L-V 8:00–18:00 · Sáb 9:00–14:00</b><span>Domingo cerrado</span></div>
+        </div>
+      </div>
+      <div class="form-card">
+        <form id="quoteForm">
+          <div class="form-row">
+            <div class="form-field"><label>Nombre</label><input type="text" placeholder="Tu nombre" required></div>
+            <div class="form-field"><label>Teléfono</label><input type="tel" placeholder="81 0000 0000" required></div>
+          </div>
+          <div class="form-field"><label>Correo</label><input type="email" placeholder="tucorreo@ejemplo.com"></div>
+          <div class="form-field">
+            <label>Tipo de proyecto</label>
+            <select>
+              <option>Jardín residencial</option>
+              <option>Terreno agrícola</option>
+              <option>Comercial</option>
+              <option>Construcción</option>
+            </select>
+          </div>
+          <div class="form-field"><label>Mensaje</label><textarea placeholder="Cuéntanos qué equipo necesitas y por cuánto tiempo"></textarea></div>
+          <button type="submit" class="btn btn-dark" style="width:100%;" data-ripple>Enviar solicitud</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="ic">✓</div>
+          <h3 style="font-size:19px; margin-bottom:8px;">¡Gracias!</h3>
+          <p style="font-size:13.5px; color:var(--ink-soft);">Recibimos tu solicitud. Te contactaremos en breve para confirmar tu cotización.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="logo" style="margin-bottom:16px; color:#fff;"><div class="mark">M</div> MRP <span style="color:#a29c8a; font-weight:400; font-size:13px;">&nbsp;Mty Rental Place</span></div>
+        <p style="color:#b9b4a3; font-size:13.5px; line-height:1.7; max-width:280px;">Renta, venta y mantenimiento de maquinaria para jardín, campo y limpieza en Monterrey y área metropolitana.</p>
+        <div class="social" style="margin-top:20px;">
+          <a href="https://www.facebook.com/p/MRP-Mty-Rental-Place-100084380336142/" target="_blank" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Instagram">ig</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>Navegación</h5>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Contacto</h5>
+        <ul>
+          <li>Colón #1575, Col. Terminal</li>
+          <li>Monterrey, N.L.</li>
+          <li>WhatsApp: 81 0000 0000</li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Horario</h5>
+        <ul>
+          <li>Lunes a viernes: 8:00–18:00</li>
+          <li>Sábado: 9:00–14:00</li>
+          <li>Domingo: cerrado</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 MRP · Mty Rental Place. Sitio de muestra (MVP) — precios y datos ilustrativos.</span>
+      <span>Sitio y automatización por Fluid × Auris</span>
+    </div>
+  </div>
+</footer>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Tu cotización</h3>
+    <div class="drawer-close" id="drawerClose">&times;</div>
+  </div>
+  <div class="drawer-body" id="drawerBody">
+    <div class="drawer-empty">Aún no agregas equipos. Explora el catálogo y da clic en “+”.</div>
+  </div>
+  <div class="drawer-foot">
+    <a href="#" id="sendQuote" class="btn btn-primary" style="width:100%;" data-ripple>Enviar por WhatsApp</a>
+  </div>
+</div>
+<div class="toast" id="toast">Agregado a tu cotización</div>
+
+<script>
+const IMG = {
+  desmalezadora:"https://images.pexels.com/photos/17589298/pexels-photo-17589298.jpeg?auto=compress&cs=tinysrgb&w=800",
+  podadora:"https://images.pexels.com/photos/37554739/pexels-photo-37554739.jpeg?auto=compress&cs=tinysrgb&w=800",
+  desbrozadora:"https://images.pexels.com/photos/3971211/pexels-photo-3971211.jpeg?auto=compress&cs=tinysrgb&w=800",
+  motosierra:"https://images.pexels.com/photos/8820171/pexels-photo-8820171.jpeg?auto=compress&cs=tinysrgb&w=800",
+  hidrolavadora:"https://images.pexels.com/photos/4876669/pexels-photo-4876669.jpeg?auto=compress&cs=tinysrgb&w=800",
+  agricola:"https://images.pexels.com/photos/34632627/pexels-photo-34632627.jpeg?auto=compress&cs=tinysrgb&w=800",
+};
+
+const products = [
+  {id:1, name:"Desmalezadora profesional 2T", desc:"Ideal para terrenos grandes y maleza densa.", cat:["renta","venta","jardin"], price:"$250/día", venta:"$8,500", avail:true, img:IMG.desmalezadora, specs:[["Potencia","2.2 HP"],["Peso","7.8 kg"]]},
+  {id:2, name:"Podadora de gasolina 4T", desc:"Corte parejo para jardines residenciales y comerciales.", cat:["renta","venta","jardin"], price:"$220/día", venta:"$6,200", avail:true, img:IMG.podadora, specs:[["Ancho corte","51 cm"],["Peso","28 kg"]]},
+  {id:3, name:"Desbrozadora de mochila", desc:"Ligera y potente, para zonas de difícil acceso.", cat:["renta","jardin"], price:"$200/día", venta:null, avail:false, img:IMG.desbrozadora, specs:[["Potencia","1.8 HP"],["Peso","8.2 kg"]]},
+  {id:4, name:"Motosierra profesional 20″", desc:"Corte de troncos y poda mayor con máxima potencia.", cat:["renta","venta","agricola"], price:"$300/día", venta:"$9,800", avail:true, img:IMG.motosierra, specs:[["Espada","20 in"],["Peso","6.1 kg"]]},
+  {id:5, name:"Hidrolavadora industrial 2200psi", desc:"Limpieza profunda para fachadas, pisos y equipo.", cat:["renta","venta","jardin"], price:"$350/día", venta:"$11,500", avail:true, img:IMG.hidrolavadora, specs:[["Presión","2200 psi"],["Flujo","7 L/min"]]},
+  {id:6, name:"Fumigadora / equipo agrícola", desc:"Aplicación uniforme para cultivos y control de plagas.", cat:["renta","agricola"], price:"$180/día", venta:null, avail:true, img:IMG.agricola, specs:[["Capacidad","20 L"],["Autonomía","4 hrs"]]},
+];
+
+const grid = document.getElementById("catGrid");
+function renderCards(filter="todos"){
+  grid.innerHTML = "";
+  products.filter(p => filter==="todos" || p.cat.includes(filter)).forEach(p=>{
+    const card = document.createElement("div");
+    card.className = "card reveal in";
+    card.innerHTML = `
+      <div class="card-media">
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+        <div class="avail ${p.avail? 'si':'no'}">${p.avail? 'Disponible':'Agotado'}</div>
+        <div class="cat-tag">${p.cat.join(" · ")}</div>
+      </div>
+      <div class="card-body">
+        <h3>${p.name}</h3>
+        <p class="desc">${p.desc}</p>
+        <div class="spec-row">
+          ${p.specs.map(s=>`<div class="spec">${s[0]}<b>${s[1]}</b></div>`).join("")}
+        </div>
+        <div class="price-row">
+          <div class="price">${p.price}<small>${p.venta? 'Venta: '+p.venta : 'Solo renta'}</small></div>
+          <div class="addbtn" data-id="${p.id}" data-ripple>+</div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+  attachAddButtons();
+  attachTilt();
+}
+renderCards();
+
+document.querySelectorAll(".chip").forEach(chip=>{
+  chip.addEventListener("click", ()=>{
+    document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+    chip.classList.add("active");
+    renderCards(chip.dataset.filter);
+  });
+});
+document.querySelectorAll(".megamenu a[data-f]").forEach(a=>{
+  a.addEventListener("click",(e)=>{
+    e.preventDefault();
+    const f = a.dataset.f;
+    document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("active", c.dataset.filter===f));
+    renderCards(f);
+    document.getElementById("catalogo").scrollIntoView({behavior:"smooth"});
+  });
+});
+
+/* ---- Quote drawer ---- */
+let quote = [];
+const quotePill = document.getElementById("quotePill");
+const drawer = document.getElementById("drawer");
+const overlay = document.getElementById("drawerOverlay");
+const drawerBody = document.getElementById("drawerBody");
+const quoteCount = document.getElementById("quoteCount");
+
+function attachAddButtons(){
+  document.querySelectorAll(".addbtn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const id = parseInt(btn.dataset.id);
+      const prod = products.find(p=>p.id===id);
+      quote.push(prod);
+      updateQuoteUI();
+      showToast("Agregado: "+prod.name);
+    });
+  });
+}
+
+function updateQuoteUI(){
+  quoteCount.textContent = quote.length;
+  if(quote.length===0){
+    drawerBody.innerHTML = '<div class="drawer-empty">Aún no agregas equipos. Explora el catálogo y da clic en “+”.</div>';
+    return;
+  }
+  drawerBody.innerHTML = quote.map((p,i)=>`
+    <div class="drawer-item">
+      <div class="di-name">${p.name}<small>${p.price}</small></div>
+      <div class="di-remove" data-i="${i}">Quitar</div>
+    </div>
+  `).join("");
+  document.querySelectorAll(".di-remove").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      quote.splice(parseInt(el.dataset.i),1);
+      updateQuoteUI();
+    });
+  });
+}
+
+quotePill.addEventListener("click", ()=>{
+  drawer.classList.add("show");
+  overlay.classList.add("show");
+});
+document.getElementById("drawerClose").addEventListener("click", closeDrawer);
+overlay.addEventListener("click", closeDrawer);
+function closeDrawer(){
+  drawer.classList.remove("show");
+  overlay.classList.remove("show");
+}
+
+document.getElementById("sendQuote").addEventListener("click", (e)=>{
+  e.preventDefault();
+  if(quote.length===0){ showToast("Agrega al menos un equipo primero"); return; }
+  const msg = "Hola, quiero cotizar: " + quote.map(p=>p.name).join(", ");
+  window.open("https://wa.me/528100000000?text="+encodeURIComponent(msg), "_blank");
+});
+
+document.getElementById("quoteForm").addEventListener("submit", (e)=>{
+  e.preventDefault();
+  e.target.style.display = "none";
+  document.getElementById("formSuccess").classList.add("show");
+});
+
+function showToast(text){
+  const t = document.getElementById("toast");
+  t.textContent = text;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 2200);
+}
+
+/* ---- Ripple ---- */
+document.addEventListener("click", (e)=>{
+  const target = e.target.closest("[data-ripple], .addbtn");
+  if(!target) return;
+  const circle = document.createElement("span");
+  const d = Math.max(target.clientWidth, target.clientHeight);
+  circle.className = "ripple";
+  circle.style.width = circle.style.height = d+"px";
+  const rect = target.getBoundingClientRect();
+  circle.style.left = (e.clientX - rect.left - d/2)+"px";
+  circle.style.top = (e.clientY - rect.top - d/2)+"px";
+  target.style.position = target.style.position || "relative";
+  target.style.overflow = "hidden";
+  target.appendChild(circle);
+  setTimeout(()=>circle.remove(), 650);
+});
+
+/* ---- Tilt on cards ---- */
+function attachTilt(){
+  document.querySelectorAll(".card").forEach(el=>{
+    el.addEventListener("mousemove", (e)=>{
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - .5;
+      const y = (e.clientY - r.top)/r.height - .5;
+      el.style.transform = `perspective(700px) rotateX(${-y*4}deg) rotateY(${x*4}deg) translateY(-2px)`;
+    });
+    el.addEventListener("mouseleave", ()=>{ el.style.transform = ""; });
+  });
+}
+attachTilt();
+
+/* ---- Scroll reveal ---- */
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{ if(en.isIntersecting) en.target.classList.add("in"); });
+},{threshold:.15});
+document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
+
+/* ---- Counters ---- */
+const counters = document.querySelectorAll(".counter");
+const cObs = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      const el = en.target;
+      const target = parseInt(el.dataset.target);
+      let cur = 0;
+      const step = Math.max(1, Math.round(target/40));
+      const timer = setInterval(()=>{
+        cur += step;
+        if(cur>=target){ cur = target; clearInterval(timer); }
+        el.textContent = cur;
+      }, 25);
+      cObs.unobserve(el);
+    }
+  });
+},{threshold:.5});
+counters.forEach(c=>cObs.observe(c));
+
+/* ---- Testimonial slider ---- */
+const slides = document.querySelectorAll(".testi-slide");
+const dots = document.querySelectorAll(".tdot");
+let ti = 0;
+function showSlide(i){
+  slides.forEach(s=>s.classList.remove("active"));
+  dots.forEach(d=>d.classList.remove("active"));
+  slides[i].classList.add("active");
+  dots[i].classList.add("active");
+  ti = i;
+}
+dots.forEach(d=>d.addEventListener("click", ()=>showSlide(parseInt(d.dataset.i))));
+setInterval(()=>showSlide((ti+1)%slides.length), 6000);
+
+/* ---- Nav active link on scroll ---- */
+const navLinks = document.querySelectorAll(".navlinks > li > a");
+const sections = [...navLinks].map(l=>document.querySelector(l.getAttribute("href").split(" ")[0]));
+window.addEventListener("scroll", ()=>{
+  let idx = 0;
+  sections.forEach((s,i)=>{ if(s && window.scrollY >= s.offsetTop - 140) idx = i; });
+  navLinks.forEach(l=>l.classList.remove("active"));
+  navLinks[idx].classList.add("active");
+});
+</script>
+</body>
+</html>

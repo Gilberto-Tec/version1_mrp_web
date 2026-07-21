@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MRP — Renta y venta de maquinaria</title>
+<link rel="stylesheet" href="_ds/modernist-a3d63346-e6c2-45cb-aa8b-5be3cb6ae7ac/styles.css">
+<script src="_ds/modernist-a3d63346-e6c2-45cb-aa8b-5be3cb6ae7ac/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+@keyframes stripe-move { from{background-position:0 0;} to{background-position:64px 0;} }
+@keyframes pop-add { 0%{transform:scale(1);} 45%{transform:scale(1.22);} 100%{transform:scale(1);} }
+.mrp-track::-webkit-scrollbar{ display:none; }
+</style>
+</helmet>
+
+<div style="--color-bg:#ffffff; --color-surface:#f6f4ee; --color-text:#16140f; --color-divider:color-mix(in srgb, #16140f 32%, transparent); --color-accent:#d9a404; --color-accent-100:#faf0d2; --color-accent-600:#b4830a; --color-accent-700:#8a660a; --color-accent-800:#6b4f08; --radius-sm:8px; --radius-md:12px; --radius-lg:20px; --green:#2f9e44; --green-deep:#1f7a34; background:var(--color-bg); color:var(--color-text); font-family:var(--font-body); min-height:100vh;">
+
+  <div style="background:var(--color-text); color:var(--color-bg);">
+    <div style="max-width:1240px; margin:0 auto; padding:9px 32px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; font-size:12.5px;">
+      <div style="display:flex; gap:22px; flex-wrap:wrap;">
+        <a href="tel:+528100000000" style="display:inline-flex; align-items:center; gap:6px; color:var(--color-bg);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          81 0000 0000
+        </a>
+        <a href="https://wa.me/528100000000" target="_blank" style="color:var(--color-bg);">WhatsApp directo</a>
+      </div>
+      <div style="opacity:.75;">L-V 8:00–18:00 · Sáb 9:00–14:00 · Monterrey y área metropolitana</div>
+    </div>
+  </div>
+
+  <header style="position:sticky; top:0; z-index:100; background:var(--color-bg); border-bottom:2px solid var(--color-divider);">
+    <nav style="max-width:1240px; margin:0 auto; padding:14px 32px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+      <a href="#inicio" style="display:flex; align-items:center;"><img src="assets/mrp-logo.png" alt="MRP" style="height:42px; width:auto; display:block;"></a>
+      <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+        <a href="#catalogo" style="padding:10px 14px; font-size:14.5px; color:var(--color-text);">Catálogo</a>
+        <a href="#servicios" style="padding:10px 14px; font-size:14.5px; color:var(--color-text);">Servicios</a>
+        <a href="#nosotros" style="padding:10px 14px; font-size:14.5px; color:var(--color-text);">Nosotros</a>
+        <a href="#contacto" style="padding:10px 14px; font-size:14.5px; color:var(--color-text);">Contacto</a>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div onClick="{{ openDrawer }}" style="display:flex; align-items:center; gap:8px; border:1px solid var(--color-divider); border-radius:var(--radius-sm); padding:9px 14px; font-size:13.5px; font-weight:700; cursor:pointer; transition:border-color .2s ease;" style-hover="border-color:var(--color-accent-700);">
+          <span>Cotización</span>
+          <span style="background:var(--color-text); color:var(--color-accent); width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px;">{{ quoteCount }}</span>
+        </div>
+        <a href="#contacto" class="btn btn-primary">Cotizar</a>
+      </div>
+    </nav>
+  </header>
+
+  <section id="inicio" style="max-width:1240px; margin:0 auto; padding:72px 32px 64px; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(280px,0.95fr); gap:56px; align-items:center;">
+    <div>
+      <span style="display:block; text-transform:uppercase; letter-spacing:.14em; font-size:12.5px; font-weight:700; color:var(--color-accent-700); margin-bottom:18px;">Renta · Venta · Mantenimiento</span>
+      <h1 style="font-family:var(--font-heading); font-weight:800; font-size:clamp(34px,4.6vw,54px); line-height:1.08; letter-spacing:-0.02em; margin:0 0 22px;">Tu equipo listo, tu trabajo sin pausas.</h1>
+      <p style="font-size:16.5px; line-height:1.7; color:color-mix(in srgb, var(--color-text) 78%, transparent); max-width:480px; margin:0 0 30px;">Maquinaria para jardín, campo y mantenimiento en Monterrey y área metropolitana. Equipos revisados, entrega rápida y asesoría real — no solo una lista de precios.</p>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px;">
+        <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+        <a href="https://wa.me/528100000000?text=Hola%2C%20quiero%20cotizar%20un%20equipo" target="_blank" class="btn btn-secondary">Cotizar por WhatsApp</a>
+      </div>
+      <div style="display:flex; gap:36px; flex-wrap:wrap; border-top:2px solid var(--color-divider); padding-top:24px;">
+        <div><b style="display:block; font-family:var(--font-heading); font-size:26px;">8+</b><span style="font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent);">Años en Monterrey</span></div>
+        <div><b style="display:block; font-family:var(--font-heading); font-size:26px;">120+</b><span style="font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent);">Equipos en flotilla</span></div>
+        <div><b style="display:block; font-family:var(--font-heading); font-size:26px;">98%</b><span style="font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent);">Satisfacción</span></div>
+      </div>
+    </div>
+    <div style="width:100%; aspect-ratio:4/5; border:1px solid var(--color-divider); border-radius:var(--radius-md); overflow:hidden;">
+      <image-slot id="slot-hero" shape="rect" placeholder="Foto de equipo o maquinaria en uso"></image-slot>
+    </div>
+  </section>
+
+  <div style="height:14px; background:repeating-linear-gradient(45deg, var(--color-text) 0 22px, var(--color-accent) 22px 44px); background-size:62px 62px; animation:stripe-move 2.2s linear infinite;"></div>
+
+  <div style="background:var(--color-text); color:var(--color-bg); padding:22px 0;">
+    <div style="max-width:1240px; margin:0 auto; padding:0 32px; display:flex; align-items:center; gap:28px; flex-wrap:wrap;">
+      <span style="font-size:11.5px; text-transform:uppercase; letter-spacing:.1em; opacity:.65;">Distribuidor autorizado</span>
+      <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center;">
+        <span style="font-family:var(--font-heading); font-weight:800; font-size:18px; letter-spacing:.02em;">TRUPER</span>
+        <span style="font-family:var(--font-heading); font-weight:800; font-size:18px; letter-spacing:.02em;">HONDA</span>
+        <span style="font-family:var(--font-heading); font-weight:800; font-size:18px; letter-spacing:.02em;">PRETUL</span>
+        <span style="font-family:var(--font-heading); font-weight:800; font-size:18px; letter-spacing:.02em;">HYUNDAI</span>
+        <span style="font-family:var(--font-heading); font-weight:800; font-size:18px; letter-spacing:.02em;">SWEDISH HUSKY POWER</span>
+      </div>
+    </div>
+  </div>
+
+  <section style="max-width:1240px; margin:0 auto; padding:64px 32px;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px;">
+      <sc-for list="{{ features }}" as="f" hint-placeholder-count="4">
+        <div style="padding:30px 26px; border:1px solid var(--color-divider); border-radius:var(--radius-md); background:var(--color-bg); box-shadow:var(--shadow-sm); transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-5px); box-shadow:var(--shadow-md);">
+          <div style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; margin-bottom:18px; color:var(--color-accent-700); background:var(--color-accent-100); border-radius:var(--radius-sm);" dangerouslySetInnerHTML="{{ f.iconHtml }}"></div>
+          <h4 style="font-family:var(--font-heading); font-size:17px; margin:0 0 9px;">{{ f.title }}</h4>
+          <p style="font-size:14.5px; line-height:1.65; color:color-mix(in srgb, var(--color-text) 74%, transparent); margin:0;">{{ f.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <div ref="{{ setStatsRef }}" style="background:var(--color-text); color:var(--color-bg); position:relative; overflow:hidden;">
+    <div style="position:absolute; top:0; right:-40px; font-family:var(--font-heading); font-weight:800; font-size:260px; line-height:1; color:color-mix(in srgb, var(--color-bg) 4%, transparent); pointer-events:none; user-select:none;">MRP</div>
+    <div style="max-width:1240px; margin:0 auto; padding:72px 32px; position:relative;">
+      <div style="display:grid; grid-template-columns:minmax(220px,0.9fr) minmax(0,2fr); gap:48px; align-items:center;">
+        <div>
+          <span style="display:block; text-transform:uppercase; letter-spacing:.14em; font-size:12.5px; font-weight:700; color:var(--color-accent); margin-bottom:16px;">Por qué MRP</span>
+          <h2 style="font-family:var(--font-heading); font-weight:800; font-size:clamp(34px,3.4vw,46px); line-height:1.08; letter-spacing:-0.01em; margin:0; color:var(--color-bg);">Números que respaldan cada entrega.</h2>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:2px; background:color-mix(in srgb, var(--color-bg) 12%, transparent);">
+          <div style="background:var(--color-text); padding:26px 28px;">
+            <b style="display:flex; align-items:baseline; gap:3px; font-family:var(--font-heading); font-weight:800; font-size:54px; line-height:1; color:var(--color-accent);">{{ counters.years }}<span style="font-size:24px;">+</span></b>
+            <span style="display:block; margin-top:10px; font-size:12.5px; text-transform:uppercase; letter-spacing:.1em; opacity:.72;">Años de experiencia</span>
+          </div>
+          <div style="background:var(--color-text); padding:26px 28px;">
+            <b style="display:flex; align-items:baseline; gap:3px; font-family:var(--font-heading); font-weight:800; font-size:54px; line-height:1; color:var(--color-accent);">{{ counters.fleet }}<span style="font-size:24px;">+</span></b>
+            <span style="display:block; margin-top:10px; font-size:12.5px; text-transform:uppercase; letter-spacing:.1em; opacity:.72;">Equipos en flotilla</span>
+          </div>
+          <div style="background:var(--color-text); padding:26px 28px;">
+            <b style="display:flex; align-items:baseline; gap:3px; font-family:var(--font-heading); font-weight:800; font-size:54px; line-height:1; color:var(--color-accent);">{{ counters.clients }}<span style="font-size:24px;">+</span></b>
+            <span style="display:block; margin-top:10px; font-size:12.5px; text-transform:uppercase; letter-spacing:.1em; opacity:.72;">Clientes atendidos</span>
+          </div>
+          <div style="background:var(--color-text); padding:26px 28px;">
+            <b style="display:flex; align-items:baseline; gap:3px; font-family:var(--font-heading); font-weight:800; font-size:54px; line-height:1; color:var(--color-accent);">{{ counters.sat }}<span style="font-size:24px;">%</span></b>
+            <span style="display:block; margin-top:10px; font-size:12.5px; text-transform:uppercase; letter-spacing:.1em; opacity:.72;">Satisfacción de clientes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="catalogo" style="max-width:1240px; margin:0 auto; padding:80px 32px;">
+    <div style="max-width:640px; margin-bottom:40px;">
+      <span style="display:block; text-transform:uppercase; letter-spacing:.14em; font-size:12.5px; font-weight:700; color:var(--color-accent-700); margin-bottom:14px;">Catálogo</span>
+      <h2 style="font-family:var(--font-heading); font-size:30px; margin:0 0 12px;">Equipo listo para tu proyecto</h2>
+      <p style="font-size:15px; line-height:1.7; color:color-mix(in srgb, var(--color-text) 72%, transparent); margin:0;">Filtra por categoría y agrega lo que necesites a tu cotización. Te contactamos directo por WhatsApp con precio y disponibilidad.</p>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:32px;">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+        <button type="button" class="{{ f.className }}" onClick="{{ f.onClick }}">{{ f.label }}</button>
+      </sc-for>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px;">
+      <sc-for list="{{ filteredProducts }}" as="p" hint-placeholder-count="6">
+        <div onClick="{{ p.onOpen }}" style="border:1px solid var(--color-divider); border-radius:var(--radius-md); overflow:hidden; display:flex; flex-direction:column; box-shadow:var(--shadow-sm); cursor:pointer; transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-5px); box-shadow:var(--shadow-md);">
+          <div style="position:relative;">
+            <div style="width:100%; aspect-ratio:4/3;">
+              <image-slot id="{{ p.slotId }}" shape="rect" placeholder="{{ p.name }}"></image-slot>
+            </div>
+            <span class="{{ p.availTagClass }}" style="position:absolute; top:10px; right:10px;">{{ p.availLabel }}</span>
+            <span style="position:absolute; bottom:10px; left:10px; display:flex; align-items:center; gap:6px; background:color-mix(in srgb, var(--color-text) 78%, transparent); color:var(--color-bg); border-radius:var(--radius-sm); padding:5px 10px; font-size:11px; font-weight:700;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              Ver detalles
+            </span>
+          </div>
+          <div style="padding:20px 22px 22px; display:flex; flex-direction:column; flex:1;">
+            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+              <sc-for list="{{ p.catTags }}" as="c" hint-placeholder-count="2">
+                <span class="tag tag-outline">{{ c }}</span>
+              </sc-for>
+            </div>
+            <h3 style="font-family:var(--font-heading); font-size:18px; margin:0 0 9px;">{{ p.name }}</h3>
+            <p style="font-size:14.5px; line-height:1.6; color:color-mix(in srgb, var(--color-text) 74%, transparent); margin:0 0 16px; min-height:42px;">{{ p.desc }}</p>
+            <div style="display:flex; gap:18px; margin-bottom:16px;">
+              <sc-for list="{{ p.specs }}" as="s" hint-placeholder-count="2">
+                <div style="font-size:12px; color:color-mix(in srgb, var(--color-text) 58%, transparent);">{{ s.label }}<b style="display:block; color:var(--color-text); font-size:14px; font-family:var(--font-heading);">{{ s.value }}</b></div>
+              </sc-for>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--color-divider); padding-top:16px; margin-top:auto;">
+              <div><span style="font-family:var(--font-heading); font-size:19px;">{{ p.price }}</span><small style="display:block; font-size:12px; color:color-mix(in srgb, var(--color-text) 58%, transparent);">{{ p.ventaLabel }}</small></div>
+              <button type="button" aria-label="Agregar" onClick="{{ p.onAdd }}" style="{{ p.addBtnStyle }}" style-hover="background:var(--green-deep);" dangerouslySetInnerHTML="{{ p.addIconHtml }}"></button>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1240px; margin:0 auto; padding:72px 32px 44px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:28px; flex-wrap:wrap;">
+      <div style="max-width:620px;">
+        <span style="display:block; text-transform:uppercase; letter-spacing:.14em; font-size:12.5px; font-weight:700; color:var(--color-accent-700); margin-bottom:12px;">Conócenos</span>
+        <h2 style="font-family:var(--font-heading); font-size:clamp(28px,2.8vw,38px); margin:0;">Cómo trabajamos contigo</h2>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button type="button" aria-label="Anterior" onClick="{{ carouselPrev }}" style="width:48px; height:48px; border:1px solid var(--color-divider); background:var(--color-bg); border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s ease;" style-hover="background:var(--color-surface);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button type="button" aria-label="Siguiente" onClick="{{ carouselNext }}" style="width:48px; height:48px; border:1px solid var(--color-divider); background:var(--color-bg); border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s ease;" style-hover="background:var(--color-surface);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+    <div ref="{{ setCarouselRef }}" onScroll="{{ onCarouselScroll }}" class="mrp-track" style="display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; border:1px solid var(--color-divider); border-radius:var(--radius-lg);">
+      <div style="min-width:100%; box-sizing:border-box; scroll-snap-align:start; background:var(--color-text); color:var(--color-bg);">
+        <div style="max-width:1240px; margin:0 auto; padding:56px 44px;">
+      <div style="max-width:640px; margin-bottom:48px;">
+        <span style="display:block; text-transform:uppercase; letter-spacing:.14em; font-size:12.5px; font-weight:700; color:var(--color-accent); margin-bottom:14px;">Cómo funciona</span>
+        <h2 style="font-family:var(--font-heading); font-weight:800; font-size:clamp(30px,3vw,40px); line-height:1.1; margin:0; color:var(--color-bg);">De la cotización al equipo en tu sitio</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:2px; background:color-mix(in srgb, var(--color-bg) 12%, transparent); border:1px solid color-mix(in srgb, var(--color-bg) 12%, transparent);">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+          <div style="background:var(--color-text); padding:32px 26px; position:relative;">
+            <div style="font-family:var(--font-heading); font-weight:800; font-size:15px; color:var(--color-accent); margin-bottom:16px; letter-spacing:.06em;">{{ s.num }}</div>
+            <div style="width:46px; height:46px; border-radius:50%; border:2px solid var(--color-accent); color:var(--color-accent); display:flex; align-items:center; justify-content:center; margin-bottom:18px;" dangerouslySetInnerHTML="{{ s.iconHtml }}"></div>
+            <h4 style="font-family:var(--font-heading); font-size:19px; margin:0 0 10px; color:var(--color-bg);">{{ s.title }}</h4>
+            <p style="font-size:14.5px; line-height:1.65; opacity:.72; margin:0;">{{ s.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+        </div>
+      </div>
+      <div id="servicios" style="min-width:100%; box-sizing:border-box; scroll-snap-align:start; background:var(--color-surface);">
+        <div style="max-width:1240px; margin:0 auto; padding:56px 44px;">
+    <div style="max-width:640px; margin-bottom:40px;">
+      <span style="display:block; text-transform:uppercase; letter-spacing:.14em; font-size:12.5px; font-weight:700; color:var(--color-accent-700); margin-bottom:14px;">Servicios</span>
+      <h2 style="font-family:var(--font-heading); font-size:clamp(28px,2.6vw,36px); margin:0;">Renta, venta y taller — todo en un mismo lugar</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px;">
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="3">
+        <div style="padding:32px 28px; border:1px solid var(--color-divider); border-top:3px solid var(--color-accent); border-radius:var(--radius-md); background:var(--color-bg); box-shadow:var(--shadow-sm); transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-5px); box-shadow:var(--shadow-md);">
+          <div style="width:48px; height:48px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color:var(--color-accent-700); background:var(--color-accent-100); border-radius:var(--radius-sm);" dangerouslySetInnerHTML="{{ s.iconHtml }}"></div>
+          <h4 style="font-family:var(--font-heading); font-size:20px; margin:0 0 10px;">{{ s.title }}</h4>
+          <p style="font-size:14.5px; line-height:1.65; color:color-mix(in srgb, var(--color-text) 74%, transparent); margin:0;">{{ s.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+        </div>
+      </div>
+      <div id="nosotros" style="min-width:100%; box-sizing:border-box; scroll-snap-align:start; background:var(--color-bg);">
+        <div style="max-width:1240px; margin:0 auto; padding:56px 44px;">
+      <div style="max-width:640px; margin-bottom:40px;">
+        <span style="display:block; text-transform:uppercase; letter-spacing:.14em; font-size:12.5px; font-weight:700; color:var(--color-accent-700); margin-bottom:14px;">Requisitos</span>
+        <h2 style="font-family:var(--font-heading); font-size:clamp(28px,2.6vw,36px); margin:0;">Para rentar solo necesitas</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px;">
+        <sc-for list="{{ requisitos }}" as="r" hint-placeholder-count="3">
+          <div style="display:flex; gap:18px; align-items:flex-start; padding:28px 26px; border:1px solid var(--color-divider); border-radius:var(--radius-md); background:var(--color-surface);">
+            <div style="width:46px; height:46px; min-width:46px; display:flex; align-items:center; justify-content:center; color:var(--color-bg); background:var(--color-accent-700); border-radius:var(--radius-sm);" dangerouslySetInnerHTML="{{ r.iconHtml }}"></div>
+            <div>
+              <h4 style="font-family:var(--font-heading); font-size:17px; margin:0 0 6px;">{{ r.title }}</h4>
+              <p style="font-size:14px; line-height:1.55; color:color-mix(in srgb, var(--color-text) 68%, transparent); margin:0;">{{ r.desc }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+        </div>
+      </div>
+      <div style="min-width:100%; box-sizing:border-box; scroll-snap-align:start; background:var(--color-surface);">
+        <div style="max-width:1240px; margin:0 auto; padding:56px 44px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin-bottom:44px;">
+        <div style="max-width:560px;">
+          <span style="display:block; text-transform:uppercase; letter-spacing:.14em; font-size:12.5px; font-weight:700; color:var(--color-accent-700); margin-bottom:14px;">Testimonios</span>
+          <h2 style="font-family:var(--font-heading); font-size:clamp(28px,2.6vw,36px); margin:0;">Clientes que ya trabajan con MRP</h2>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; background:var(--color-bg); border:1px solid var(--color-divider); border-radius:var(--radius-md); padding:12px 18px;">
+          <b style="font-family:var(--font-heading); font-size:30px; line-height:1;">4.9</b>
+          <div>
+            <div style="display:flex; gap:2px; color:var(--color-accent);">
+              <sc-for list="{{ starFive }}" as="x" hint-placeholder-count="5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+              </sc-for>
+            </div>
+            <span style="font-size:11.5px; color:color-mix(in srgb, var(--color-text) 60%, transparent);">valoración de clientes</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:22px;">
+        <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
+          <div style="display:flex; flex-direction:column; background:var(--color-bg); border:1px solid var(--color-divider); border-radius:var(--radius-md); padding:30px 28px; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; gap:2px; color:var(--color-accent); margin-bottom:18px;">
+              <sc-for list="{{ starFive }}" as="x" hint-placeholder-count="5">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+              </sc-for>
+            </div>
+            <p style="font-family:var(--font-heading); font-weight:600; font-size:17px; line-height:1.5; margin:0 0 24px; letter-spacing:-0.01em;">"{{ t.quote }}"</p>
+            <div style="display:flex; align-items:center; gap:14px; margin-top:auto; padding-top:20px; border-top:1px solid var(--color-divider);">
+              <div style="width:46px; height:46px; min-width:46px; border-radius:50%; background:var(--color-text); color:var(--color-accent); display:flex; align-items:center; justify-content:center; font-family:var(--font-heading); font-weight:800; font-size:16px;">{{ t.initials }}</div>
+              <div>
+                <b style="display:block; font-size:14.5px;">{{ t.name }}</b>
+                <span style="display:block; font-size:12.5px; color:color-mix(in srgb, var(--color-text) 60%, transparent); margin-top:1px;">{{ t.role }}</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" style="background:var(--color-surface); border-top:2px solid var(--color-divider);">
+    <div style="max-width:1240px; margin:0 auto; padding:80px 32px; display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:flex-start;">
+      <div>
+        <span style="display:block; text-transform:uppercase; letter-spacing:.14em; font-size:12.5px; font-weight:700; color:var(--color-accent-700); margin-bottom:14px;">Contacto</span>
+        <h2 style="font-family:var(--font-heading); font-size:28px; margin:0 0 16px;">Arma tu cotización en minutos</h2>
+        <p style="font-size:15px; line-height:1.7; color:color-mix(in srgb, var(--color-text) 72%, transparent); margin:0 0 28px;">Cuéntanos qué necesitas y te contactamos directo por WhatsApp o teléfono. También puedes escribirnos ya con tu lista de cotización.</p>
+        <div style="display:flex; gap:14px; margin-bottom:20px;">
+          <div style="width:36px; height:36px; min-width:36px; display:flex; align-items:center; justify-content:center; color:var(--color-accent-700);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div><b style="display:block; font-size:14px;">Colón #1575, Col. Terminal</b><span style="font-size:13px; color:color-mix(in srgb, var(--color-text) 60%, transparent);">Monterrey, N.L.</span></div>
+        </div>
+        <div style="display:flex; gap:14px; margin-bottom:20px;">
+          <div style="width:36px; height:36px; min-width:36px; display:flex; align-items:center; justify-content:center; color:var(--color-accent-700);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          </div>
+          <div><b style="display:block; font-size:14px;">81 0000 0000</b><span style="font-size:13px; color:color-mix(in srgb, var(--color-text) 60%, transparent);">WhatsApp y llamadas</span></div>
+        </div>
+        <div style="display:flex; gap:14px;">
+          <div style="width:36px; height:36px; min-width:36px; display:flex; align-items:center; justify-content:center; color:var(--color-accent-700);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          </div>
+          <div><b style="display:block; font-size:14px;">L-V 8:00–18:00 · Sáb 9:00–14:00</b><span style="font-size:13px; color:color-mix(in srgb, var(--color-text) 60%, transparent);">Domingo cerrado</span></div>
+        </div>
+      </div>
+      <div style="background:var(--color-bg); border:1px solid var(--color-divider); padding:32px;">
+        <sc-if value="{{ formSentIsFalse }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ submitForm }}">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
+              <div class="field"><label>Nombre</label><input class="input" type="text" placeholder="Tu nombre" required=""></div>
+              <div class="field"><label>Teléfono</label><input class="input" type="tel" placeholder="81 0000 0000" required=""></div>
+            </div>
+            <div class="field" style="margin-bottom:14px;"><label>Correo</label><input class="input" type="email" placeholder="tucorreo@ejemplo.com"></div>
+            <div class="field" style="margin-bottom:14px;">
+              <label>Tipo de proyecto</label>
+              <select class="input">
+                <option>Jardín residencial</option>
+                <option>Terreno agrícola</option>
+                <option>Comercial</option>
+                <option>Construcción</option>
+              </select>
+            </div>
+            <div class="field" style="margin-bottom:18px;"><label>Mensaje</label><textarea class="input" placeholder="Cuéntanos qué equipo necesitas y por cuánto tiempo"></textarea></div>
+            <button type="submit" class="btn btn-primary btn-block">Enviar solicitud</button>
+          </form>
+        </sc-if>
+        <sc-if value="{{ formSent }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center; padding:26px 6px;">
+            <h3 style="font-family:var(--font-heading); font-size:19px; margin:0 0 8px;">¡Gracias!</h3>
+            <p style="font-size:13.5px; color:color-mix(in srgb, var(--color-text) 72%, transparent); margin:0;">Recibimos tu solicitud. Te contactaremos en breve para confirmar tu cotización.</p>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:var(--color-text); color:var(--color-bg); padding:64px 0 24px;">
+    <div style="max-width:1240px; margin:0 auto; padding:0 32px;">
+      <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; margin-bottom:48px;">
+        <div>
+          <img src="assets/mrp-logo.png" alt="MRP" style="height:48px; width:auto; display:block; margin-bottom:18px;">
+          <p style="font-size:13.5px; line-height:1.7; max-width:280px; opacity:.75; margin:0;">Renta, venta y mantenimiento de maquinaria para jardín, campo y limpieza en Monterrey y área metropolitana.</p>
+        </div>
+        <div>
+          <h5 style="font-size:12px; text-transform:uppercase; letter-spacing:.12em; color:var(--color-accent); margin:0 0 18px;">Navegación</h5>
+          <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; opacity:.85;">
+            <a href="#inicio" style="color:var(--color-bg);">Inicio</a>
+            <a href="#catalogo" style="color:var(--color-bg);">Catálogo</a>
+            <a href="#servicios" style="color:var(--color-bg);">Servicios</a>
+            <a href="#nosotros" style="color:var(--color-bg);">Nosotros</a>
+          </div>
+        </div>
+        <div>
+          <h5 style="font-size:12px; text-transform:uppercase; letter-spacing:.12em; color:var(--color-accent); margin:0 0 18px;">Contacto</h5>
+          <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; opacity:.85;">
+            <span>Colón #1575, Col. Terminal</span>
+            <span>Monterrey, N.L.</span>
+            <span>WhatsApp: 81 0000 0000</span>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid color-mix(in srgb, var(--color-bg) 15%, transparent); padding-top:22px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:12.5px; opacity:.6;">
+        <span>© 2026 MRP. Sitio de muestra (MVP) — precios y datos ilustrativos.</span>
+      </div>
+    </div>
+  </footer>
+
+  <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeDrawer }}" style="position:fixed; inset:0; background:color-mix(in srgb, var(--color-text) 45%, transparent); z-index:300;"></div>
+    <div style="position:fixed; top:0; right:0; height:100%; width:400px; max-width:88vw; background:var(--color-bg); border-left:1px solid var(--color-divider); z-index:301; display:flex; flex-direction:column;">
+      <div style="padding:24px; border-bottom:2px solid var(--color-divider); display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-family:var(--font-heading); font-size:18px; margin:0;">Tu cotización</h3>
+        <div onClick="{{ closeDrawer }}" style="cursor:pointer; font-size:20px;">&times;</div>
+      </div>
+      <div style="padding:20px 24px; overflow-y:auto; flex:1;">
+        <sc-if value="{{ hasQuote }}" hint-placeholder-val="{{ false }}">
+          <sc-for list="{{ quoteItems }}" as="item" hint-placeholder-count="2">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--color-divider); gap:10px;">
+              <div style="font-size:14px;">{{ item.name }}<small style="display:block; color:color-mix(in srgb, var(--color-text) 55%, transparent); font-size:11.5px; margin-top:2px;">{{ item.price }}</small></div>
+              <div onClick="{{ item.onRemove }}" style="color:var(--color-accent-700); cursor:pointer; font-size:13px;">Quitar</div>
+            </div>
+          </sc-for>
+        </sc-if>
+        <sc-if value="{{ noQuote }}" hint-placeholder-val="{{ true }}">
+          <div style="color:color-mix(in srgb, var(--color-text) 55%, transparent); font-size:14px; text-align:center; padding:60px 10px;">Aún no agregas equipos. Explora el catálogo y da clic en "+".</div>
+        </sc-if>
+      </div>
+      <div style="padding:20px 24px; border-top:2px solid var(--color-divider);">
+        <button type="button" class="btn btn-primary btn-block" onClick="{{ sendQuote }}">Enviar por WhatsApp</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position:fixed; inset:0; background:color-mix(in srgb, var(--color-text) 62%, transparent); backdrop-filter:blur(3px); z-index:500; display:flex; align-items:flex-start; justify-content:center; padding:40px 20px; overflow-y:auto;">
+      <div onClick="{{ stopProp }}" style="background:var(--color-bg); border-radius:var(--radius-lg); overflow:hidden; width:100%; max-width:1000px; box-shadow:var(--shadow-lg); display:flex; flex-direction:column;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:26px 30px 20px; border-bottom:1px solid var(--color-divider);">
+          <div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
+              <sc-for list="{{ modalProduct.catTags }}" as="c" hint-placeholder-count="2">
+                <span class="tag tag-outline">{{ c }}</span>
+              </sc-for>
+              <span class="{{ modalProduct.availTagClass }}">{{ modalProduct.availLabel }}</span>
+            </div>
+            <h2 style="font-family:var(--font-heading); font-weight:800; font-size:28px; line-height:1.1; margin:0;">{{ modalProduct.name }}</h2>
+          </div>
+          <div onClick="{{ closeModal }}" style="width:38px; height:38px; min-width:38px; display:flex; align-items:center; justify-content:center; border:1px solid var(--color-divider); border-radius:var(--radius-sm); cursor:pointer; font-size:20px; transition:background .2s ease;" style-hover="background:var(--color-surface);">&times;</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:0;">
+          <div style="padding:26px 30px; border-right:1px solid var(--color-divider);">
+            <span style="display:block; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:700; color:var(--color-accent-700); margin-bottom:12px;">Video del equipo</span>
+            <div style="position:relative; width:100%; aspect-ratio:16/9; background:var(--color-text); border-radius:var(--radius-md); overflow:hidden; display:flex; align-items:center; justify-content:center;">
+              <sc-if value="{{ modalProduct.hasVideo }}" hint-placeholder-val="{{ false }}">
+                <video controls="" playsinline="" style="width:100%; height:100%; object-fit:cover;" src="{{ modalProduct.videoSrc }}"></video>
+              </sc-if>
+              <sc-if value="{{ modalProduct.noVideo }}" hint-placeholder-val="{{ true }}">
+                <div style="text-align:center; color:color-mix(in srgb, var(--color-bg) 70%, transparent); padding:20px;">
+                  <div style="width:60px; height:60px; margin:0 auto 14px; border-radius:50%; background:color-mix(in srgb, var(--color-bg) 12%, transparent); display:flex; align-items:center; justify-content:center;">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="var(--color-accent)" stroke="none"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                  <div style="font-size:13px; font-weight:700; color:var(--color-bg);">Espacio para video del producto</div>
+                  <div style="font-size:12px; margin-top:4px;">Sube un MP4 o pega un enlace del equipo en acción</div>
+                </div>
+              </sc-if>
+            </div>
+            <p style="font-size:15px; line-height:1.7; color:color-mix(in srgb, var(--color-text) 78%, transparent); margin:22px 0 0;">{{ modalProduct.longDesc }}</p>
+            <ul style="list-style:none; padding:0; margin:20px 0 0; display:grid; gap:10px;">
+              <sc-for list="{{ modalProduct.bullets }}" as="b" hint-placeholder-count="3">
+                <li style="display:flex; gap:10px; align-items:flex-start; font-size:14px; line-height:1.5;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:1px; flex:none;"><path d="M5 13l4 4L19 7"/></svg>
+                  <span>{{ b }}</span>
+                </li>
+              </sc-for>
+            </ul>
+          </div>
+
+          <div style="padding:26px 30px; display:flex; flex-direction:column;">
+            <span style="display:block; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:700; color:var(--color-accent-700); margin-bottom:14px;">Especificaciones</span>
+            <div style="display:grid; gap:1px; background:var(--color-divider); border:1px solid var(--color-divider); border-radius:var(--radius-md); overflow:hidden;">
+              <sc-for list="{{ modalProduct.fullSpecs }}" as="s" hint-placeholder-count="4">
+                <div style="display:flex; justify-content:space-between; gap:12px; padding:12px 16px; background:var(--color-bg); font-size:13.5px;">
+                  <span style="color:color-mix(in srgb, var(--color-text) 62%, transparent);">{{ s.label }}</span>
+                  <b style="font-family:var(--font-heading);">{{ s.value }}</b>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="margin-top:22px; padding:18px 20px; border:1px solid var(--color-divider); border-radius:var(--radius-md); background:var(--color-surface);">
+              <div style="display:flex; align-items:baseline; gap:8px;">
+                <span style="font-family:var(--font-heading); font-weight:800; font-size:26px;">{{ modalProduct.price }}</span>
+                <span style="font-size:12px; color:color-mix(in srgb, var(--color-text) 55%, transparent);">renta</span>
+              </div>
+              <div style="font-size:13px; color:color-mix(in srgb, var(--color-text) 60%, transparent); margin-top:2px;">{{ modalProduct.ventaLabel }}</div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:10px; margin-top:auto; padding-top:22px;">
+              <button type="button" onClick="{{ modalProduct.onAdd }}" style="display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:14px; border:none; border-radius:var(--radius-sm); background:var(--green); color:#fff; font-family:var(--font-heading); font-weight:700; font-size:15px; cursor:pointer; transition:background .2s ease;" style-hover="background:var(--green-deep);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                Agregar a cotización
+              </button>
+              <a href="https://wa.me/528100000000" target="_blank" class="btn btn-secondary btn-block">Cotizar por WhatsApp</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; bottom:28px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:10px; background:#eafaef; color:#1f7a34; border:1px solid #b6e6c4; border-left:4px solid var(--green); border-radius:var(--radius-sm); box-shadow:var(--shadow-md); padding:13px 22px; font-size:13.5px; font-weight:700; z-index:400;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      <span>{{ toastMsg }}</span>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ICONS = {
+  check: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+  clock: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>',
+  compass: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M16 8l-2 6-6 2 2-6z"/></svg>',
+  chat: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>',
+  truck: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="10" rx="1"/><path d="M17 10h3l2 3v4h-5z"/><circle cx="7.5" cy="19" r="1.5"/><circle cx="18.5" cy="19" r="1.5"/></svg>',
+  package: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9z"/></svg>',
+  wrench: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 11-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 015.4-5.4z"/></svg>',
+  idcard: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="8.5" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg>',
+  plus: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>',
+  checkSmall: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+  doc: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l3 3v17H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>',
+  shield: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5z"/></svg>',
+};
+
+const PRODUCTS = [
+  {id:1, name:"Desmalezadora profesional 2T", desc:"Ideal para terrenos grandes y maleza densa.", longDesc:"Desmalezadora de motor 2 tiempos pensada para jornadas largas en terrenos grandes y maleza densa. Arranque fácil, arnés ergonómico y cabezal intercambiable para hilo o disco.", bullets:["Motor 2T de arranque asistido","Arnés doble para menor fatiga","Compatible con hilo y disco de corte"], videoSrc:null, cat:["renta","venta","jardin"], catTags:["Renta","Venta","Jardín"], price:"$250/día", venta:"$8,500", avail:true, slotId:"slot-desmalezadora", specs:[{label:"Potencia",value:"2.2 HP"},{label:"Peso",value:"7.8 kg"}], fullSpecs:[{label:"Potencia",value:"2.2 HP"},{label:"Cilindrada",value:"52 cc"},{label:"Peso",value:"7.8 kg"},{label:"Tanque",value:"1.2 L"}]},
+  {id:2, name:"Podadora de gasolina 4T", desc:"Corte parejo para jardines residenciales y comerciales.", longDesc:"Podadora autopropulsada de 4 tiempos para un corte parejo en jardines residenciales y comerciales. Altura de corte ajustable y bolsa recolectora de gran capacidad.", bullets:["Motor 4T sin mezcla de aceite","7 alturas de corte ajustables","Bolsa recolectora de 60 L"], videoSrc:null, cat:["renta","venta","jardin"], catTags:["Renta","Venta","Jardín"], price:"$220/día", venta:"$6,200", avail:true, slotId:"slot-podadora", specs:[{label:"Ancho corte",value:"51 cm"},{label:"Peso",value:"28 kg"}], fullSpecs:[{label:"Ancho de corte",value:"51 cm"},{label:"Motor",value:"4T 160 cc"},{label:"Peso",value:"28 kg"},{label:"Recolector",value:"60 L"}]},
+  {id:3, name:"Desbrozadora de mochila", desc:"Ligera y potente, para zonas de difícil acceso.", longDesc:"Desbrozadora tipo mochila, ligera y equilibrada para trabajar en pendientes y zonas de difícil acceso sin cargar el peso en los brazos.", bullets:["Diseño de mochila acolchada","Transmisión flexible de bajo esfuerzo","Ideal para pendientes y taludes"], videoSrc:null, cat:["renta","jardin"], catTags:["Renta","Jardín"], price:"$200/día", venta:null, avail:false, slotId:"slot-desbrozadora", specs:[{label:"Potencia",value:"1.8 HP"},{label:"Peso",value:"8.2 kg"}], fullSpecs:[{label:"Potencia",value:"1.8 HP"},{label:"Cilindrada",value:"43 cc"},{label:"Peso",value:"8.2 kg"},{label:"Tipo",value:"Mochila"}]},
+  {id:4, name:"Motosierra profesional 20″", desc:"Corte de troncos y poda mayor con máxima potencia.", longDesc:"Motosierra profesional con espada de 20″ para corte de troncos y poda mayor. Freno de cadena, tensado sin herramienta y sistema antivibración.", bullets:["Espada de 20 pulgadas","Freno de cadena de seguridad","Sistema antivibración"], videoSrc:null, cat:["renta","venta","agricola"], catTags:["Renta","Venta","Agrícola"], price:"$300/día", venta:"$9,800", avail:true, slotId:"slot-motosierra", specs:[{label:"Espada",value:"20 in"},{label:"Peso",value:"6.1 kg"}], fullSpecs:[{label:"Espada",value:"20 in"},{label:"Cilindrada",value:"58 cc"},{label:"Peso",value:"6.1 kg"},{label:"Freno",value:"Sí"}]},
+  {id:5, name:"Hidrolavadora industrial 2200psi", desc:"Limpieza profunda para fachadas, pisos y equipo.", longDesc:"Hidrolavadora industrial de 2200 psi para limpieza profunda de fachadas, pisos, maquinaria y superficies con grasa. Incluye juego de boquillas intercambiables.", bullets:["Presión de 2200 psi","4 boquillas de abanico y turbo","Manguera reforzada de 8 m"], videoSrc:null, cat:["renta","venta","jardin"], catTags:["Renta","Venta","Jardín"], price:"$350/día", venta:"$11,500", avail:true, slotId:"slot-hidrolavadora", specs:[{label:"Presión",value:"2200 psi"},{label:"Flujo",value:"7 L/min"}], fullSpecs:[{label:"Presión",value:"2200 psi"},{label:"Flujo",value:"7 L/min"},{label:"Manguera",value:"8 m"},{label:"Boquillas",value:"4 pzas"}]},
+  {id:6, name:"Fumigadora / equipo agrícola", desc:"Aplicación uniforme para cultivos y control de plagas.", longDesc:"Fumigadora de motor para aplicación uniforme en cultivos y control de plagas. Tanque de 20 L, bomba de presión regulable y lanza telescópica.", bullets:["Tanque de 20 litros","Presión regulable","Lanza telescópica incluida"], videoSrc:null, cat:["renta","agricola"], catTags:["Renta","Agrícola"], price:"$180/día", venta:null, avail:true, slotId:"slot-agricola", specs:[{label:"Capacidad",value:"20 L"},{label:"Autonomía",value:"4 hrs"}], fullSpecs:[{label:"Capacidad",value:"20 L"},{label:"Autonomía",value:"4 hrs"},{label:"Presión",value:"Regulable"},{label:"Lanza",value:"Telescópica"}]},
+];
+
+const TESTIMONIALS = [
+  {quote:"Pedimos una desmalezadora un sábado y la tuvimos en menos de dos horas. El equipo llegó impecable y con instrucciones claras.", name:"Rancho Santa Fe", role:"Cliente de renta agrícola", initials:"RS"},
+  {quote:"Compramos dos hidrolavadoras para el negocio y el seguimiento post-venta ha sido de los mejores que hemos tenido con un proveedor.", name:"Jardines López", role:"Cliente de venta de equipo", initials:"JL"},
+  {quote:"El taller nos salvó una obra: llevamos una motosierra en falla y la regresaron el mismo día funcionando perfecto.", name:"Constructora del Valle", role:"Cliente de taller y mantenimiento", initials:"CV"},
+];
+
+const FEATURES = [
+  {title:"Equipos revisados", desc:"Mantenimiento antes de cada entrega, sin fallas de última hora.", iconHtml:ICONS.check},
+  {title:"Entrega rápida", desc:"Cobertura en Monterrey y área metropolitana con tiempos claros.", iconHtml:ICONS.clock},
+  {title:"Asesoría experta", desc:"Te ayudamos a elegir el equipo correcto para tu terreno o proyecto.", iconHtml:ICONS.compass},
+  {title:"Atención por WhatsApp", desc:"Cotizaciones y seguimiento directo, sin vueltas.", iconHtml:ICONS.chat},
+];
+
+const SERVICES = [
+  {title:"Renta de equipo", desc:"Por día, semana o proyecto. Equipos revisados antes de cada entrega, con asesoría para elegir el correcto.", iconHtml:ICONS.truck},
+  {title:"Venta de maquinaria", desc:"Equipo nuevo y seminuevo con garantía. Ideal si el uso es frecuente y conviene invertir en lugar de rentar.", iconHtml:ICONS.package},
+  {title:"Taller y mantenimiento", desc:"Servicio, diagnóstico y refacciones para que tu propio equipo esté siempre listo para trabajar.", iconHtml:ICONS.wrench},
+];
+
+const REQUISITOS = [
+  {title:"Identificación oficial", desc:"INE, pasaporte o licencia vigente.", iconHtml:ICONS.idcard},
+  {title:"Comprobante de domicilio", desc:"No mayor a 3 meses.", iconHtml:ICONS.doc},
+  {title:"Depósito o pagaré", desc:"Como garantía del equipo rentado.", iconHtml:ICONS.shield},
+];
+
+const STEPS = [
+  {num:"01", title:"Cotiza", desc:"Agrega equipos a tu cotización o escríbenos por WhatsApp. Respuesta en minutos.", iconHtml:ICONS.chat},
+  {num:"02", title:"Confirmamos", desc:"Validamos disponibilidad real y te damos fecha y costo exacto, sin sorpresas.", iconHtml:ICONS.check},
+  {num:"03", title:"Entrega", desc:"Recoges en tienda o coordinamos entrega en Monterrey y área metropolitana.", iconHtml:ICONS.truck},
+  {num:"04", title:"Soporte", desc:"Asesoría durante el uso y taller de mantenimiento si el equipo lo necesita.", iconHtml:ICONS.wrench},
+];
+
+const FILTER_DEFS = [
+  {key:"todos", label:"Todos"},
+  {key:"renta", label:"Renta"},
+  {key:"venta", label:"Venta"},
+  {key:"jardin", label:"Jardín"},
+  {key:"agricola", label:"Agrícola"},
+];
+
+const TARGETS = {years:8, fleet:120, clients:600, sat:98};
+
+class Component extends DCLogic {
+  state = {
+    filter: "todos",
+    quote: [],
+    drawerOpen: false,
+    testiIndex: 0,
+    formSent: false,
+    counters: {years:0, fleet:0, clients:0, sat:0},
+    countersDone: false,
+    toast: null,
+    justAdded: {},
+    modalId: null,
+  };
+
+  componentDidMount() {
+  }
+
+  componentWillUnmount() {
+    if (this._toastTimer) clearTimeout(this._toastTimer);
+    if (this._statsObserver) this._statsObserver.disconnect();
+  }
+
+  setStatsRef = (el) => {
+    if (!el || this._statsObserver) return;
+    this._statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting && !this.state.countersDone) {
+          this.setState({ countersDone: true });
+          this.runCounters();
+        }
+      });
+    }, { threshold: 0.4 });
+    this._statsObserver.observe(el);
+  };
+
+  runCounters() {
+    const start = performance.now();
+    const dur = 1300;
+    const tick = (t) => {
+      const p = Math.min(1, (t - start) / dur);
+      this.setState({
+        counters: {
+          years: Math.round(TARGETS.years * p),
+          fleet: Math.round(TARGETS.fleet * p),
+          clients: Math.round(TARGETS.clients * p),
+          sat: Math.round(TARGETS.sat * p),
+        },
+      });
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  showToast(msg) {
+    if (this._toastTimer) clearTimeout(this._toastTimer);
+    this.setState({ toast: true, toastMsg: msg });
+    this._toastTimer = setTimeout(() => this.setState({ toast: null }), 2400);
+  }
+
+  addToQuote(p) {
+    if (this.state.quote.find(q => q.id === p.id)) { this.showToast("Ya está en tu cotización"); return; }
+    this.setState(s => ({ quote: [...s.quote, p], justAdded: { ...s.justAdded, [p.id]: true } }));
+    this.showToast("Agregado: " + p.name);
+    setTimeout(() => {
+      this.setState(s => { const j = { ...s.justAdded }; delete j[p.id]; return { justAdded: j }; });
+    }, 900);
+  }
+
+  openModal(p) { this.setState({ modalId: p.id }); }
+  closeModal() { this.setState({ modalId: null }); }
+
+  removeFromQuote(i) {
+    this.setState(s => ({ quote: s.quote.filter((_, idx) => idx !== i) }));
+  }
+
+  sendQuoteWhatsapp() {
+    if (this.state.quote.length === 0) { this.showToast("Agrega al menos un equipo primero"); return; }
+    const msg = "Hola, quiero cotizar: " + this.state.quote.map(p => p.name).join(", ");
+    window.open("https://wa.me/528100000000?text=" + encodeURIComponent(msg), "_blank");
+  }
+
+  submitForm(e) {
+    e.preventDefault();
+    this.setState({ formSent: true });
+  }
+
+  renderVals() {
+    const filter = this.state.filter;
+    const filteredProducts = PRODUCTS.filter(p => filter === "todos" || p.cat.includes(filter)).map(p => {
+      const justAdded = !!this.state.justAdded[p.id];
+      return {
+        ...p,
+        availLabel: p.avail ? "Disponible" : "Agotado",
+        availTagClass: p.avail ? "tag tag-accent" : "tag tag-neutral",
+        ventaLabel: p.venta ? ("Venta: " + p.venta) : "Solo renta",
+        onAdd: (e) => { if (e) e.stopPropagation(); this.addToQuote(p); },
+        onOpen: () => this.openModal(p),
+        addIconHtml: { __html: justAdded ? ICONS.checkSmall : ICONS.plus },
+        addBtnStyle: {
+          width: "40px", height: "40px", display: "flex", alignItems: "center", justifyContent: "center",
+          border: "none", cursor: "pointer", borderRadius: "var(--radius-sm)", color: "#fff",
+          background: justAdded ? "var(--green-deep)" : "var(--green)",
+          transition: "background .2s ease, transform .2s ease",
+          animation: justAdded ? "pop-add .45s ease" : "none",
+        },
+      };
+    });
+
+    const filters = FILTER_DEFS.map(f => ({
+      key: f.key,
+      label: f.label,
+      className: "btn " + (f.key === filter ? "btn-primary" : "btn-secondary"),
+      onClick: () => this.setState({ filter: f.key }),
+    }));
+
+    const testimonials = TESTIMONIALS;
+    const starFive = [1,2,3,4,5];
+    const quoteItems = this.state.quote.map((p, i) => ({ ...p, onRemove: () => this.removeFromQuote(i) }));
+
+    const mp = PRODUCTS.find(p => p.id === this.state.modalId);
+    const modalProduct = mp ? {
+      ...mp,
+      availLabel: mp.avail ? "Disponible" : "Agotado",
+      availTagClass: mp.avail ? "tag tag-accent" : "tag tag-neutral",
+      ventaLabel: mp.venta ? ("Precio de venta: " + mp.venta) : "Disponible solo en renta",
+      hasVideo: !!mp.videoSrc,
+      noVideo: !mp.videoSrc,
+      onAdd: () => { this.addToQuote(mp); this.closeModal(); },
+    } : null;
+
+    const wrapIcon = (arr) => arr.map(x => ({ ...x, iconHtml: { __html: x.iconHtml } }));
+
+    return {
+      features: wrapIcon(FEATURES),
+      services: wrapIcon(SERVICES),
+      requisitos: wrapIcon(REQUISITOS),
+      steps: wrapIcon(STEPS),
+      filters,
+      filteredProducts,
+      counters: this.state.counters,
+      setStatsRef: this.setStatsRef,
+      quoteCount: this.state.quote.length,
+      quoteItems,
+      hasQuote: this.state.quote.length > 0,
+      noQuote: this.state.quote.length === 0,
+      drawerOpen: this.state.drawerOpen,
+      openDrawer: () => this.setState({ drawerOpen: true }),
+      closeDrawer: () => this.setState({ drawerOpen: false }),
+      sendQuote: () => this.sendQuoteWhatsapp(),
+      testimonials,
+      starFive,      formSent: this.state.formSent,
+      formSentIsFalse: !this.state.formSent,
+      submitForm: (e) => this.submitForm(e),
+      toast: this.state.toast,
+      toastMsg: this.state.toastMsg,
+      modalOpen: !!modalProduct,
+      modalProduct: modalProduct || {},
+      closeModal: () => this.closeModal(),
+      stopProp: (e) => e.stopPropagation(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
