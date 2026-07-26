@@ -240,7 +240,7 @@
       <!-- Hero stage -->
       <div class="group relative h-[380px] w-full overflow-hidden rounded-3xl border border-border bg-stage lg:h-[520px]">
         <div class="absolute inset-0 bg-grid opacity-70"></div>
-        <img src="assets/catalogo/podadora.jpg" alt="Maquinaria de jardinería profesional" class="relative h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105" loading="eager" />
+        <img src="assets/hero-podando.jpg" alt="Persona podando el pasto con una podadora" class="relative h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105" loading="eager" />
         <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent"></div>
         <div class="pointer-events-none absolute bottom-4 left-5 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-foreground">
           <span class="h-2 w-2 animate-pulse rounded-full bg-primary"></span>
@@ -367,12 +367,9 @@
       </div>
 
       <p class="mt-6 text-center text-[10px] leading-relaxed text-muted-foreground/60">
-        Imágenes de referencia vía Wikimedia Commons —
-        <a href="https://commons.wikimedia.org/wiki/File:Viking_lawn_mower.jpg" target="_blank" rel="noopener" class="underline hover:text-primary">Podadora</a>: kallerna, <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener" class="underline hover:text-primary">CC BY-SA 3.0</a> ·
-        <a href="https://commons.wikimedia.org/wiki/File:Brush_cutter_01.JPG" target="_blank" rel="noopener" class="underline hover:text-primary">Desmalezadora</a>: Feťour, dominio público ·
-        <a href="https://commons.wikimedia.org/wiki/File:Honda_GX_160_engine.jpg" target="_blank" rel="noopener" class="underline hover:text-primary">Motor</a>: TheMalsa, <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener" class="underline hover:text-primary">CC BY-SA 3.0</a> ·
-        <a href="https://commons.wikimedia.org/wiki/File:%E3%83%81%E3%82%A7%E3%83%B3%E3%82%BD%E3%83%BC_STIHL_MS170C_Chainsaw_(5290190254).jpg" target="_blank" rel="noopener" class="underline hover:text-primary">Motosierra</a>: Laineema, <a href="https://creativecommons.org/licenses/by/2.0" target="_blank" rel="noopener" class="underline hover:text-primary">CC BY 2.0</a> ·
-        <a href="https://commons.wikimedia.org/wiki/File:Kawasaki_Pressure_Washer_HPW_302.jpg" target="_blank" rel="noopener" class="underline hover:text-primary">Hidrolavadora</a>: FBenjr123, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener" class="underline hover:text-primary">CC BY-SA 4.0</a>.
+        Fotos de portada y motosierra vía Wikimedia Commons —
+        <a href="https://commons.wikimedia.org/wiki/File:Senior_man_mowing_the_lawn_in_a_backyard_with_greenery.jpg" target="_blank" rel="noopener" class="underline hover:text-primary">Portada</a>: Shixart1985, <a href="https://creativecommons.org/licenses/by/2.0" target="_blank" rel="noopener" class="underline hover:text-primary">CC BY 2.0</a> ·
+        <a href="https://commons.wikimedia.org/wiki/File:%E3%83%81%E3%82%A7%E3%83%B3%E3%82%BD%E3%83%BC_STIHL_MS170C_Chainsaw_(5290190254).jpg" target="_blank" rel="noopener" class="underline hover:text-primary">Motosierra</a>: Laineema, <a href="https://creativecommons.org/licenses/by/2.0" target="_blank" rel="noopener" class="underline hover:text-primary">CC BY 2.0</a>.
       </p>
     </div>
   </footer>
@@ -449,16 +446,16 @@
     ];
 
     const catalog = [
-      { id: 1, category: "Podadoras de Pasto", type: "Chicas", sale_price: 3800, rent_price: 800, img: "assets/catalogo/podadora.jpg",
+      { id: 1, category: "Podadoras de Pasto", type: "Chicas", sale_price: 3800, rent_price: 800, img: "assets/catalogo/podadora-chica.jpg",
         description: "Podadora compacta ideal para jardines residenciales pequeños. Ligera, fácil de maniobrar y de arranque sencillo.",
         specs: [["Corte","18 pulgadas"],["Motor","4 tiempos a gasolina"],["Uso","Residencial"],["Garantía","6 meses"]] },
-      { id: 2, category: "Podadoras de Pasto", type: "Medianas", sale_price: 4800, rent_price: 850, img: "assets/catalogo/podadora.jpg",
+      { id: 2, category: "Podadoras de Pasto", type: "Medianas", sale_price: 4800, rent_price: 850, img: "assets/catalogo/podadora-mediana.jpg",
         description: "Equilibrio perfecto entre potencia y peso para jardines medianos con uso frecuente.",
         specs: [["Corte","20 pulgadas"],["Motor","4 tiempos a gasolina"],["Uso","Residencial intensivo"],["Garantía","6 meses"]] },
-      { id: 3, category: "Podadoras de Pasto", type: "Grandes", sale_price: 5800, rent_price: 900, img: "assets/catalogo/podadora.jpg",
+      { id: 3, category: "Podadoras de Pasto", type: "Grandes", sale_price: 5800, rent_price: 900, img: "assets/catalogo/podadora-grande.jpg",
         description: "Diseñada para terrenos amplios y pasto denso, con chasis reforzado y mayor capacidad de bolsa.",
         specs: [["Corte","22 pulgadas"],["Motor","Alta cilindrada"],["Uso","Semi profesional"],["Garantía","6 meses"]] },
-      { id: 4, category: "Podadoras de Pasto", type: "Con tracción", sale_price: 6800, rent_price: null, img: "assets/catalogo/podadora.jpg",
+      { id: 4, category: "Podadoras de Pasto", type: "Con tracción", sale_price: 6800, rent_price: null, img: "assets/catalogo/podadora-grande.jpg",
         description: "Tracción autopropulsada que reduce el esfuerzo en terrenos inclinados y superficies grandes.",
         specs: [["Corte","22 pulgadas"],["Tracción","Autopropulsada"],["Uso","Profesional"],["Garantía","12 meses"]] },
       { id: 5, category: "Desmalezadoras", type: "Profesional (Stallion)", sale_price: 3990, rent_price: null, img: "assets/catalogo/desmalezadora.jpg",
@@ -479,9 +476,9 @@
       { id: 10, category: "Motosierras", type: "20 pulgadas", sale_price: 3995, rent_price: 800, img: "assets/catalogo/motosierra.jpg",
         description: "Mayor espada y potencia para derribo de árboles y corte de troncos gruesos.",
         specs: [["Espada","20 pulgadas"],["Freno","De cadena"],["Uso","Derribo"],["Garantía","12 meses"]] },
-      { id: 11, category: "Hidrolavadoras", type: "Honda Profesional 11 HP", sale_price: 12995, rent_price: null, img: "assets/catalogo/hidrolavadora.jpg",
-        description: "Hidrolavadora profesional de alta presión con motor Honda, ideal para lavado industrial y flotillas.",
-        specs: [["Motor","Honda 11 HP"],["Presión","Alta presión"],["Uso","Industrial"],["Garantía","12 meses"]] },
+      { id: 11, category: "Hidrolavadoras", type: "Honda Profesional 13 HP", sale_price: 12995, rent_price: null, img: "assets/catalogo/hidrolavadora.jpg",
+        description: "Hidrolavadora profesional de alta presión con motor Honda GX, ideal para lavado industrial y flotillas.",
+        specs: [["Motor","Honda GX 13 HP"],["Presión","4100 PSI"],["Uso","Industrial"],["Garantía","12 meses"]] },
     ];
 
     const formatMoney = (n) => new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(n);
