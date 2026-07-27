@@ -612,7 +612,7 @@
       const p = catalog.find((x) => x.id === id);
       if (!p) return;
       const price = transactionType === "compra" ? p.sale_price : p.rent_price;
-      cart.push({ cartId: Date.now() + Math.random(), id: p.id, type: p.type, img: p.img, transactionType, price });
+      cart.push({ cartId: Date.now() + Math.random(), id: p.id, category: p.category, type: p.type, img: p.img, transactionType, price });
       renderCart();
       openCart();
     }
@@ -629,9 +629,10 @@
         ? `<p class="mt-10 text-center text-sm text-muted-foreground">Tu cotización está vacía.</p>`
         : cart.map((item) => `
           <div class="flex gap-3 rounded-xl border border-border p-3">
-            <img src="${item.img}" alt="${item.type}" class="h-16 w-16 rounded-lg object-cover" />
+            <img src="${item.img}" alt="${item.category} ${item.type}" class="h-16 w-16 rounded-lg object-cover" />
             <div class="flex-1">
-              <p class="text-sm font-bold leading-tight">${item.type}</p>
+              <p class="text-sm font-bold leading-tight">${item.category}</p>
+              <p class="text-[11px] text-muted-foreground">${item.type}</p>
               <p class="text-[11px] uppercase tracking-widest text-primary">${item.transactionType}</p>
               <p class="text-sm font-extrabold">${formatMoney(item.price)}</p>
             </div>
@@ -656,7 +657,7 @@
       if (cart.length === 0) {
         msg = "Hola MRP, quiero cotizar un equipo de maquinaria.";
       } else {
-        const lines = cart.map((i) => `• ${i.type} (${i.transactionType}) — ${formatMoney(i.price)}`).join("\n");
+        const lines = cart.map((i) => `• ${i.category} — ${i.type} (${i.transactionType}) — ${formatMoney(i.price)}`).join("\n");
         const total = cart.reduce((s, i) => s + i.price, 0);
         msg = `Hola MRP, quiero cotizar lo siguiente:\n${lines}\n\nTotal estimado: ${formatMoney(total)}`;
       }
